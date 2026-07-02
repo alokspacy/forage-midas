@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class KafkaConsumer {
     private static final Logger logger = LoggerFactory.getLogger(KafkaConsumer.class);
 
-    @KafkaListener(topics = "${general.kafka-topic}")
+    @KafkaListener(topics = "${general.kafka-topic}", groupId = "midas-core-group")
     public void listen(Transaction transaction) {
         logger.info("Received transaction: {}", transaction);
     }
