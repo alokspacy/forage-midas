@@ -9,9 +9,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class KafkaConsumer {
     private static final Logger logger = LoggerFactory.getLogger(KafkaConsumer.class);
+    private final TransactionProcessor transactionProcessor;
+
+    public KafkaConsumer(TransactionProcessor transactionProcessor) {
+        this.transactionProcessor = transactionProcessor;
+    }
 
     @KafkaListener(topics = "${general.kafka-topic}", groupId = "midas-core-group")
     public void listen(Transaction transaction) {
         logger.info("Received transaction: {}", transaction);
+        transactionProcessor.process(transaction);
     }
 }
